@@ -12,7 +12,6 @@ MIDDLEWARE = [
 
 LANGUAGES = (
     ("en", _("English")),
-    ("it", _("Italiano")),
     ("fr", _("Français")),
     # more than one language is expected here
 )
