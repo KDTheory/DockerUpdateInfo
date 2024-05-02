@@ -1,4 +1,5 @@
 import docker
+import requests
 from tabulate import tabulate
 
 client = docker.from_env()
@@ -9,15 +10,15 @@ table_data = []
 for container in containers:
     container_name = container.name
     container_image = container.image
-    container_version = container.image.tags[0].split(":")[1]
+    container_version = container_image.tags[0].split(":")[1]
 
     docker_hub_url = f"https://registry.hub.docker.com/v1/repositories/{container_image}/tags"
     response = requests.get(docker_hub_url)
-    docker_hub_version = response.json()[0]["name"]
+    docker_hub_version = response.json()[0]["name"] if response.status_code == 200 else "N/A"
 
-    gist_url = f"https://api.github.com/gists/{container_image}"
+    gist_url = f"https://api.github.com/gists/{container_name}"
     response = requests.get(gist_url)
-    gist_version = response.json()["files"][0]["content"] if response.status_code == 200 else "N/A"
+    gist_version = response.json()["files"]["version.txt"]["content"] if response.status_code == 200 else "N/A"
 
     table_data.append({
         "Container Name": container_name,
