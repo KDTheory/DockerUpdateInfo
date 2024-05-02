@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>Container Name</th>
+        <th>Image</th>
+        <th>Current Version</th>
+        <th>Docker Hub Version</th>
+        <th>GitHub Gist Version</th>
+    </tr>
+    {% for container in containers %}
+    <tr>
+        <td>{{ container.name }}</td>
+        <td>{{ container.image }}</td>
+        <td>{{ container.current_version }}</td>
+        <td>{{ container.docker_hub_version }}</td>
+        <td>{{ container.gist_version }}</td>
+    </tr>
+    {% endfor %}
+</table>
