@@ -15,7 +15,7 @@ for container in containers:
     github_registry_version = "N/A"
 
     if container_image:
-        docker_hub_url = f"https://registry.hub.docker.com/v1/repositories/{container_image}/tags"
+        docker_hub_url = f"https://hub.docker.com/v2/repositories/{container_image}/tags"
         response = requests.get(docker_hub_url)
         if response.status_code == 200:
             docker_hub_version = response.json()[0]["name"] if response.json() else "N/A"
