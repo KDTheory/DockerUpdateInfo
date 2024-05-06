@@ -7,13 +7,10 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY . .
+COPY script.py .
 
-# Expose port 8000 for the web interface
-EXPOSE 8000
-
-# Run Django migrations and start the development server
+# Run 
 CMD ["python", "script.py"]
