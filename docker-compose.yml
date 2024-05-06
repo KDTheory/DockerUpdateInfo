@@ -3,7 +3,7 @@ version: '3'
 services:
   dockerupdateinfo:
     image: kdtheory/dockerupdateinfo
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
