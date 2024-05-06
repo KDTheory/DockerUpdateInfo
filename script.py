@@ -18,19 +18,20 @@ for container in containers:
         # Get the current version of the local container
         current_version = container.image.tags[0].split(":")[-1] if container.image.tags else "N/A"
 
-        # Get the tags of the Docker image on Docker Hub
-        docker_hub_url = f"https://hub.docker.com/v2/repositories/{container_image}/tags"
+        # Get the latest tag of the Docker image on Docker Hub
+        docker_hub_url = f"https://registry.hub.docker.com/v1/repositories/{container_image}/tags"
         response = requests.get(docker_hub_url)
         if response.status_code == 200:
             data = response.json()
-            tags = [tag["name"] for tag in data.get("results", [])]
+            tags = [tag for tag in data]
             docker_hub_version = max(tags, default="N/A") if tags else "N/A"
 
-        # Get the tags of the Docker image on GitHub Registry
-        github_registry_url = f"https://api.github.com/repos/{container_image.replace('docker.io/', '')}/tags"
+        # Get the latest tag of the Docker image on GitHub Registry
+        github_registry_url = f"https://api.github.com/repos/{container_image.replace('docker.io/', '').replace('/', '/')}/tags"
         response = requests.get(github_registry_url)
         if response.status_code == 200:
-            tags = [tag["name"][1:] for tag in response.json()]
+            data = response.json()
+            tags = [tag["name"] for tag in data]
             github_registry_version = max(tags, default="N/A") if tags else "N/A"
 
     # Determine if an update is available
