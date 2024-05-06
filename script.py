@@ -18,7 +18,7 @@ for container in containers:
         docker_hub_url = f"https://hub.docker.com/v2/repositories/{container_image}/tags"
         response = requests.get(docker_hub_url)
         if response.status_code == 200:
-            docker_hub_version = response.json()[0]["name"] if response.json() else "N/A"
+            docker_hub_version = response.json()[0]["name"] if response.json()["results"] else "N/A"
 
         github_registry_url = f"https://api.github.com/repos/{container_image}/tags"
         response = requests.get(github_registry_url)
