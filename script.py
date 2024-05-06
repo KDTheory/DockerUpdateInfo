@@ -15,15 +15,16 @@ for container in containers:
 
     if container_image:
         # Get the latest tag of the Docker image on Docker Hub
-        if '/' in container_image:
-            docker_hub_url = f"https://hub.docker.com/v2/repositories/{container_image.split('/')[1]}/tags"
+        image_parts = container_image.split('/')
+        if len(image_parts) > 1:
+            docker_hub_url = f"https://hub.docker.com/v2/repositories/{image_parts[1]}/tags"
         else:
             docker_hub_url = f"https://hub.docker.com/v2/repositories/{container_image}/tags"
 
         response = requests.get(docker_hub_url)
         if response.status_code == 200:
             data = response.json()
-            tags = [tag["name"] for tag in data]
+            tags = [tag["name"] for tag in data["results"]]
             docker_hub_version = max(tags, default="N/A") if tags else "N/A"
 
         # Get the latest tag of the Docker image on GitHub Registry
