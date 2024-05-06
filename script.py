@@ -16,15 +16,15 @@ for container in containers:
     response = requests.get(docker_hub_url)
     docker_hub_version = response.json()[0]["name"] if response.status_code == 200 else "N/A"
 
-    gist_url = f"https://api.github.com/gists/{container_name}"
-    response = requests.get(gist_url)
-    gist_version = response.json()["files"]["version.txt"]["content"] if response.status_code == 200 else "N/A"
+    github_registry_url = f"https://api.github.com/repos/{container_name}/tags"
+    response = requests.get(github_registry_url)
+    github_registry_version  = response.json()["files"]["version.txt"]["content"] if response.status_code == 200 else "N/A"
 
     table_data.append({
         "Container Name": container_name,
         "Current Version": container_version,
         "Docker Hub Version": docker_hub_version,
-        "GitHub Gist Version": gist_version
+        "GitHub Registry Version": github_registry_version 
     })
 
 print(tabulate(table_data, headers="keys", tablefmt="psql"))
