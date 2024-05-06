@@ -1,11 +1,9 @@
 version: '3'
 
 services:
-  docker-script:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  dockerupdateinfo:
+    image: kdtheory/dockerupdateinfo
+    ports:
+      - "5000:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - PYTHONUNBUFFERED=1
