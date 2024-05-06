@@ -18,15 +18,15 @@ for container in containers:
         docker_hub_url = f"https://registry.hub.docker.com/v1/repositories/{container_image}/tags"
         response = requests.get(docker_hub_url)
         if response.status_code == 200:
-            docker_hub_version = response.json()[0]["name"]
+            docker_hub_version = response.json()[0]["name"] if response.json() else "N/A"
 
         github_registry_url = f"https://api.github.com/repos/{container_image}/tags"
         response = requests.get(github_registry_url)
         if response.status_code == 200:
-            github_registry_version = response.json()[0]["name"]
+            github_registry_version = response.json()[0]["name"] if response.json() else "N/A"
 
     table_data.append({
-        "Container Name": container_name,
+        "Container Name": f"{container_name} ({container_image})",
         "Current Version": container.image.tags[0].split(":")[1] if container.image.tags else "N/A",
         "Docker Hub Version": docker_hub_version,
         "GitHub Registry Version": github_registry_version
